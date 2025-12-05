@@ -2,12 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://b8l36kuou8xsj" path="res://scenes/background.tscn" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://mv26pwhrke3j" path="res://scenes/ground.tscn" id="2_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://dyh0f58rxt6e3" path="res://scenes/player.tscn" id="3_lnu2h"]
 
 [node name="Game" type="Node2D"]
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("1_yqjtg")]
 
 [node name="Ground" parent="." instance=ExtResource("2_lnu2h")]
+
+[node name="Player" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(400, 1010)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

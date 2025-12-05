@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyh0f58rxt6e3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqkch"]
+radius = 15.0
+height = 40.0
+
+[sub_resource type="Gradient" id="Gradient_3vyb7"]
+colors = PackedColorArray(0.51972026, 0.21786582, 0.2964745, 1, 0.7471115, 0.66698873, 0.4122, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g2els"]
+gradient = SubResource("Gradient_3vyb7")
+width = 40
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dqkch"]
+radius = 20.0
+
+[node name="Player" type="RigidBody2D"]
+lock_rotation = true
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 10
+
+[node name="UpperCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -40)
+shape = SubResource("CapsuleShape2D_dqkch")
+
+[node name="Upper" type="Sprite2D" parent="UpperCollision"]
+rotation = 1.5707964
+scale = Vector2(1, 30)
+texture = SubResource("GradientTexture1D_g2els")
+
+[node name="LowerCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dqkch")
+
+[node name="Lower" type="Sprite2D" parent="LowerCollision"]
+rotation = 1.5707964
+scale = Vector2(1, 40)
+texture = SubResource("GradientTexture1D_g2els")
