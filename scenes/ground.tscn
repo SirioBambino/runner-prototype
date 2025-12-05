@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://mv26pwhrke3j"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://8kk3gt6f1nfd" path="res://physics/ground.tres" id="1_pybca"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ylpw"]
+size = Vector2(3000, 50)
+
+[node name="Ground" type="StaticBody2D"]
+physics_material_override = ExtResource("1_pybca")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(960, 1055)
+shape = SubResource("RectangleShape2D_7ylpw")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-540, 1030)
+color = Color(0.43995127, 0.4869094, 0.7056425, 1)
+polygon = PackedVector2Array(0, 0, 0, 50, 3000, 50, 3000, 0)
