@@ -1,4 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyh0f58rxt6e3"]
+[gd_scene load_steps=17 format=3 uid="uid://dyh0f58rxt6e3"]
+
+[ext_resource type="Script" uid="uid://ca3ip18v4qddp" path="res://scripts/state_machine/state_machine.gd" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://d2i5a1ny6urk1" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Script" uid="uid://bndmivavl257g" path="res://scripts/state_machine/states/player/run_player_state.gd" id="3_qlg0r"]
+[ext_resource type="Script" uid="uid://bgnctd854fpoi" path="res://scripts/state_machine/states/player/jump_player_state.gd" id="4_tuyoq"]
+[ext_resource type="Script" uid="uid://iyvf0ph03xd8" path="res://scripts/state_machine/states/player/fall_player_state.gd" id="5_fjrip"]
+[ext_resource type="Script" uid="uid://dbu26agw1mjnr" path="res://scripts/state_machine/states/player/charge_player_state.gd" id="6_fjrip"]
+[ext_resource type="Script" uid="uid://b4du1xwqqr7mi" path="res://scripts/label.gd" id="6_tuyoq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqkch"]
 radius = 15.0
@@ -14,11 +22,32 @@ width = 40
 [sub_resource type="CircleShape2D" id="CircleShape2D_dqkch"]
 radius = 20.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_tuyoq"]
+font_size = 24
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_smehm"]
+colors = PackedColorArray(0.19434929, 0.19434926, 0.19434926, 0.39215687, 0.19434929, 0.19434926, 0.19434926, 0.39215687)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ur7pv"]
+gradient = SubResource("Gradient_smehm")
+
+[sub_resource type="Gradient" id="Gradient_fjrip"]
+colors = PackedColorArray(0.2445851, 0.321761, 0.61829805, 1, 0.7882101, 0.85024005, 0.97056943, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_smehm"]
+gradient = SubResource("Gradient_fjrip")
+
 [node name="Player" type="RigidBody2D"]
 lock_rotation = true
+custom_integrator = true
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 10
+script = ExtResource("1_g2els")
+
+[node name="JumpPreview" type="Line2D" parent="."]
 
 [node name="UpperCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -40)
@@ -36,3 +65,48 @@ shape = SubResource("CircleShape2D_dqkch")
 rotation = 1.5707964
 scale = Vector2(1, 40)
 texture = SubResource("GradientTexture1D_g2els")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("1_3vyb7")
+initial_state = NodePath("Run")
+metadata/_custom_type_script = "uid://ca3ip18v4qddp"
+
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "charge_state")]
+script = ExtResource("3_qlg0r")
+fall_state = NodePath("../Fall")
+charge_state = NodePath("../Charge")
+metadata/_custom_type_script = "uid://bndmivavl257g"
+
+[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state")]
+script = ExtResource("4_tuyoq")
+fall_state = NodePath("../Fall")
+metadata/_custom_type_script = "uid://bgnctd854fpoi"
+
+[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("run_state")]
+script = ExtResource("5_fjrip")
+run_state = NodePath("../Run")
+metadata/_custom_type_script = "uid://iyvf0ph03xd8"
+
+[node name="Charge" type="Node" parent="StateMachine" node_paths=PackedStringArray("jump_state")]
+script = ExtResource("6_fjrip")
+jump_state = NodePath("../Jump")
+metadata/_custom_type_script = "uid://dbu26agw1mjnr"
+
+[node name="CurrentState" type="Label" parent="."]
+offset_left = -250.0
+offset_top = -100.0
+offset_right = 250.0
+offset_bottom = -66.0
+text = "text"
+label_settings = SubResource("LabelSettings_tuyoq")
+horizontal_alignment = 1
+script = ExtResource("6_tuyoq")
+
+[node name="JumpCharge" type="TextureProgressBar" parent="."]
+offset_left = -75.0
+offset_top = -125.0
+offset_right = 75.0
+offset_bottom = -105.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_ur7pv")
+texture_progress = SubResource("GradientTexture1D_smehm")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://elst0xn32iil"]
+[gd_scene load_steps=5 format=3 uid="uid://elst0xn32iil"]
 
 [ext_resource type="PackedScene" uid="uid://b8l36kuou8xsj" path="res://scenes/background.tscn" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://duody2jbdlmbw" path="res://scripts/player_target.gd" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://mv26pwhrke3j" path="res://scenes/ground.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://dyh0f58rxt6e3" path="res://scenes/player.tscn" id="3_lnu2h"]
 
@@ -8,10 +9,19 @@
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("1_yqjtg")]
 
-[node name="Ground" parent="." instance=ExtResource("2_lnu2h")]
+[node name="PlayerTarget" type="Node2D" parent="."]
+script = ExtResource("2_lbhrr")
+metadata/_custom_type_script = "uid://duody2jbdlmbw"
 
-[node name="Player" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(400, 1010)
+[node name="Ground" parent="PlayerTarget" instance=ExtResource("2_lnu2h")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="PlayerTarget"]
 anchor_mode = 0
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_lnu2h")]
+position = Vector2(200, 1010)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+value = 100.0
